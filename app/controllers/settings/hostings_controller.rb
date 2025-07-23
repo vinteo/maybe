@@ -8,6 +8,9 @@ class Settings::HostingsController < ApplicationController
   def show
     synth_provider = Provider::Registry.get_provider(:synth)
     @synth_usage = synth_provider&.usage
+
+    open_exchange_rates_provider = Provider::Registry.get_provider(:open_exchange_rates)
+    @open_exchange_rates_usage = open_exchange_rates_provider&.usage
   end
 
   def update
@@ -23,6 +26,10 @@ class Settings::HostingsController < ApplicationController
       Setting.synth_api_key = hosting_params[:synth_api_key]
     end
 
+    if hosting_params.key?(:open_exchange_rates_app_id)
+      Setting.open_exchange_rates_app_id = hosting_params[:open_exchange_rates_app_id]
+    end
+
     redirect_to settings_hosting_path, notice: t(".success")
   rescue ActiveRecord::RecordInvalid => error
     flash.now[:alert] = t(".failure")
@@ -36,7 +43,7 @@ class Settings::HostingsController < ApplicationController
 
   private
     def hosting_params
-      params.require(:setting).permit(:require_invite_for_signup, :require_email_confirmation, :synth_api_key)
+      params.require(:setting).permit(:require_invite_for_signup, :require_email_confirmation, :synth_api_key, :open_exchange_rates_app_id)
     end
 
     def ensure_admin

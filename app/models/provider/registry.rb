@@ -40,6 +40,14 @@ class Provider::Registry
         Provider::Synth.new(api_key)
       end
 
+      def open_exchange_rates
+        app_id = ENV.fetch("OPEN_EXCHANGE_RATES_APP_ID", Setting.open_exchange_rates_app_id)
+
+        return nil unless app_id.present?
+
+        Provider::OpenExchangeRates.new(app_id)
+      end
+
       def plaid_us
         config = Rails.application.config.plaid
 
@@ -92,7 +100,7 @@ class Provider::Registry
     def available_providers
       case concept
       when :exchange_rates
-        %i[synth]
+        %i[synth open_exchange_rates]
       when :securities
         %i[synth]
       when :llm

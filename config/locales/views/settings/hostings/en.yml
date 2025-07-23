@@ -28,6 +28,13 @@ en:
         placeholder: Enter your API key here
         plan: "%{plan} plan"
         title: Synth Settings
+      open_exchange_rates_settings:
+        api_calls_used: "%{used} / %{limit} API calls used (%{percentage})"
+        description: Input the APP ID provided by Open Exchange Rates
+        label: APP ID
+        placeholder: Enter your APP ID here
+        plan: "%{plan} plan"
+        title: Open Exchange Rates Settings
       update:
         failure: Invalid setting value
         success: Settings updated
