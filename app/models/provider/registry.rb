@@ -48,6 +48,10 @@ class Provider::Registry
         Provider::TwelveData.new(api_key)
       end
 
+      def exchange_api
+        Provider::ExchangeApi.new()
+      end
+
       def plaid_us
         config = Rails.application.config.plaid
 
@@ -100,7 +104,7 @@ class Provider::Registry
     def available_providers
       case concept
       when :exchange_rates
-        %i[synth twelve_data]
+        %i[synth twelve_data exchange_api]
       when :securities
         %i[synth twelve_data]
       when :llm
