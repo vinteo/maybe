@@ -15,7 +15,7 @@ class Provider::ExchangeApi < Provider
 
   def fetch_exchange_rate(from:, to:, date:)
     with_provider_response do
-      response = client.get("#{base_url}/currency-api@#{date}/v1/currencies/#{from.downcase}.json")
+      response = client.get("#{base_url}/currency-api@#{date - 1.day}/v1/currencies/#{from.downcase}.json")
       rate = JSON.parse(response.body).dig(from.downcase, to.downcase)
 
       Rate.new(date: date.to_date, from:, to:, rate: rate)
