@@ -24,12 +24,13 @@ class Provider::ExchangeApi < Provider
 
   def fetch_exchange_rates(from:, to:, start_date:, end_date:)
     with_provider_response do
-      request_body = {}
+      results = []
       date = start_date
       while date <= end_date
-        fetch_exchange_rate(from: from, to: to, date: date)
+        results << fetch_exchange_rate(from: from, to: to, date: date)
         date += 1.day
       end
+      results
     end
   end
 
