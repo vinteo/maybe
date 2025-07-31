@@ -44,6 +44,15 @@ class Provider::Registry
         Provider::ExchangeApi.new()
       end
 
+      def custom
+        twelve_data_api_key = ENV.fetch("TWELVE_DATA_API_KEY", Setting.twelve_data_api_key)
+        eodhd_api_key = ENV.fetch("EODHD_API_KEY", Setting.eodhd_api_key)
+
+        return nil unless twelve_data_api_key.present? && eodhd_api_key.present?
+
+        Provider::Custom.new(twelve_data_api_key, eodhd_api_key)
+      end
+
       def plaid_us
         config = Rails.application.config.plaid
 
@@ -98,7 +107,7 @@ class Provider::Registry
       when :exchange_rates
         %i[twelve_data exchange_api]
       when :securities
-        %i[twelve_data]
+        %i[twelve_data custom]
       when :llm
         %i[openai]
       else
